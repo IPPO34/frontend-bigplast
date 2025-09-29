@@ -293,7 +293,7 @@ export default function AdminDashboard() {
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {productos.map((p) => (
               <div key={p.id} className="bg-white text-gray-900 p-4 rounded shadow">
-                <img src={p.imagen_url || "https://via.placeholder.com/300"} alt={p.nombre} className="w-full h-40 object-cover rounded mb-3" />
+                <img src={p.imagen_url || "https://via.placeholder.com/300"} alt={p.nombre} className="w-full h-40 object-contain rounded mb-3" />
                 <h3 className="font-bold text-lg">{p.nombre}</h3>
                 <p className="text-sm text-gray-600">{p.descripcion}</p>
                 <p className="text-blue-600 font-semibold">S/. {p.precio}</p>
