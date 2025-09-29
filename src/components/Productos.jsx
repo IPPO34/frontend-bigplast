@@ -77,7 +77,7 @@ export default function Productos() {
             <img
               src={getImageUrl(p.imagen_url)}
               alt={p.nombre}
-              className="w-full h-48 object-cover rounded-md mb-4"
+              className="w-full h-48 object-contain rounded-md mb-4"
             />
             <h3 className="text-xl font-semibold text-gray-900 line-clamp-1">
               {p.nombre}

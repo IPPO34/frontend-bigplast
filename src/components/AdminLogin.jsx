@@ -33,7 +33,7 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#0f172a] text-white">
+    <div className="flex flex-col min-h-screen bg-blue text-white">
       {/* Navbar fijo arriba */}
       <Navbar />
 

@@ -68,5 +68,13 @@ export async function uploadImagen(file) {
   });
 
   if (!res.ok) throw new Error("Error al subir la imagen");
-  return res.json(); // backend devuelve { url: "/uploads/archivo.jpg" }
+
+  const data = await res.json();
+
+  // 🔹 Aseguramos la URL completa (para que no dependa del entorno local)
+  if (data.url && !data.url.startsWith("http")) {
+    data.url = `https://backend-bigplast.onrender.com${data.url}`;
+  }
+
+  return data; // devuelve { url: "https://backend-bigplast.onrender.com/uploads/archivo.jpg" }
 }

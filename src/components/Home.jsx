@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import heroImage from "../assets/Fondo_BP.png"; // tu imagen
+import { fetchProductos } from "../api"; // 👈 usamos la API real
 
 export default function Home() {
+  const [productos, setProductos] = useState([]);
+
+  useEffect(() => {
+    async function loadProductos() {
+      try {
+        const data = await fetchProductos();
+        // Tomar solo los últimos 3 productos, en orden descendente
+        const ultimos = data
+          .sort((a, b) => new Date(b.creado_en) - new Date(a.creado_en))
+          .slice(0, 3);
+        setProductos(ultimos);
+      } catch (err) {
+        console.error("Error cargando productos destacados:", err);
+      }
+    }
+    loadProductos();
+  }, []);
+
   return (
     <div className="bg-[#0f172a] text-white">
       {/* Hero */}
@@ -56,29 +75,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Productos destacados (breve preview) */}
+      {/* Productos destacados */}
       <section className="py-12 bg-gray-50 text-gray-900">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-6 text-center">Productos destacados</h2>
+          <h2 className="text-3xl font-bold mb-6 text-center">Últimos productos</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {/* Ejemplos (puedes sustituir por la lógica real o componentes) */}
-            <div className="bg-white p-4 rounded-xl shadow">
-              <img src="https://unionychicawa.vteximg.com.br/arquivos/ids/175675-1000-1000/70216479-1.jpg?v=638411262647630000" alt="item" className="w-full h-44 object-cover rounded mb-3"/>
-              <h4 className="font-semibold">Silla</h4>
-              <p className="text-blue-600 font-bold">S/. 45.00</p>
-            </div>
-
-            <div className="bg-white p-4 rounded-xl shadow">
-              <img src="https://cdnx.jumpseller.com/productos-rey-preu/image/49246503/resize/1200/1200?1717023386" alt="item" className="w-full h-44 object-cover rounded mb-3"/>
-              <h4 className="font-semibold">Silla</h4>
-              <p className="text-blue-600 font-bold">S/. 89.99</p>
-            </div>
-
-            <div className="bg-white p-4 rounded-xl shadow">
-              <img src="https://unomasuno.pe/wp-content/uploads/2020/11/barcelona-azul.png" alt="item" className="w-full h-44 object-cover rounded mb-3"/>
-              <h4 className="font-semibold">Silla</h4>
-              <p className="text-blue-600 font-bold">S/. 30.50</p>
-            </div>
+            {productos.length > 0 ? (
+              productos.map((p) => (
+                <div key={p.id} className="bg-white p-4 rounded-xl shadow">
+                  <img
+  src={p.imagen_url || "https://via.placeholder.com/300"}
+  alt={p.nombre}
+  className="w-full h-44 object-contain rounded mb-3 "
+/>
+                  <h4 className="font-semibold">{p.nombre}</h4>
+                  <p className="text-blue-600 font-bold">S/. {p.precio}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center col-span-3 text-gray-500">
+                No hay productos disponibles aún.
+              </p>
+            )}
           </div>
         </div>
       </section>
